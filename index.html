@@ -10,12 +10,18 @@
 </head>
 <style>
     :root {
-        --primary-color: #1e3c72;
-        --secondary-color: #2a5298;
-        --accent-color: #e43f5a;
-        --text-color: #ffffff;
-        --card-bg: rgba(26, 35, 126, 0.85);
+        --primary-color: #2563eb;    /* Azul mais claro */
+        --secondary-color: #3b82f6;  /* Azul médio */
+        --accent-color: #ef4444;     /* Vermelho para destaque */
+        --text-color: #ffffff;      /* Branco para textos */
+        --bg-color: #1e40af;         /* Azul escuro de fundo */
+        --card-bg: rgba(37, 99, 235, 0.1);
         --price-color: #E6E6FA;
+        --primary-blue: #0036B3;    /* Azul principal */
+        --secondary-blue: #0051FF;   /* Azul mais claro */
+        --light-blue: #4D89FF;      /* Azul claro para detalhes */
+        --dark-blue: #001F66;       /* Azul escuro para fundo */
+        --glow-blue: #00C3FF;       /* Azul brilhante para efeitos */
     }
 
     * {
@@ -26,15 +32,16 @@
     }
 
     body {
-        background: #162447;
+        background-color: var(--dark-blue);
+        background-image: 
+            radial-gradient(circle at 50% 50%, var(--primary-blue) 0%, transparent 100%),
+            linear-gradient(45deg, rgba(0, 54, 179, 0.2) 25%, transparent 25%, transparent 75%, rgba(0, 54, 179, 0.2) 75%),
+            linear-gradient(45deg, rgba(0, 54, 179, 0.2) 25%, transparent 25%, transparent 75%, rgba(0, 54, 179, 0.2) 75%);
+        background-size: 100% 100%, 60px 60px, 60px 60px;
+        background-position: 0 0, 0 0, 30px 30px;
+        background-attachment: fixed;
         color: var(--text-color);
         min-height: 100vh;
-        /* Textura de gelo com SVG */
-        background-image: 
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%231e3c72' fill-opacity='0.15'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
-            linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        background-size: cover;
-        background-attachment: fixed;
     }
 
     .hero {
@@ -92,19 +99,16 @@
 
     .glow {
         font-family: 'Orbitron', sans-serif;
-        font-size: 4rem;
-        font-weight: 700;
+        font-size: 6.5rem;          /* Tamanho aumentado */
+        font-weight: 900;           /* Mais negrito */
+        letter-spacing: 8px;        /* Mais espaçamento entre letras */
         color: var(--text-color);
-        text-shadow: 0 0 10px var(--primary-color),
-                     0 0 20px var(--primary-color),
-                     0 0 30px var(--accent-color);
-        animation: glow 2s ease-in-out infinite alternate;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        background: linear-gradient(90deg, #fff, #e43f5a);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 0 15px var(--primary-color));
+        text-shadow: 
+            0 0 20px var(--glow-blue),
+            0 0 40px var(--glow-blue),
+            0 0 60px var(--primary-blue);
+        animation: titlePulse 3s ease-in-out infinite;
+        margin-bottom: 1rem;
     }
 
     .hero-subtitle {
@@ -159,23 +163,49 @@
     }
 
     .account-card {
-        background: rgba(255,255,255,0.10);
+        background: rgba(0, 54, 179, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--light-blue);
+        box-shadow: 0 8px 32px rgba(0, 54, 179, 0.3);
         padding: 2rem 1.2rem 1.5rem 1.2rem;
         border-radius: 22px;
         text-align: center;
         transition: transform 0.35s cubic-bezier(.25,.8,.25,1), box-shadow 0.35s;
-        border: 1.5px solid #e43f5a33;
-        box-shadow: 0 8px 32px rgba(30,60,114,0.13);
         position: relative;
         overflow: hidden;
-        backdrop-filter: blur(8px);
         cursor: pointer;
+        animation: cardWave 3s ease-in-out infinite;
+        animation-play-state: paused;
+        will-change: transform;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+
+    .account-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(147, 197, 253, 0.2),
+            transparent
+        );
+        transition: 0.5s;
+    }
+
+    .account-card:hover::before {
+        left: 100%;
     }
 
     .account-card:hover {
-        transform: translateY(-8px) scale(1.03) rotate(-1deg);
-        box-shadow: 0 16px 40px #1e3c72cc, 0 2px 12px #e43f5a44;
-        border-color: #e43f5a;
+        border-color: var(--glow-blue);
+        box-shadow: 
+            0 8px 32px rgba(0, 195, 255, 0.3),
+            0 0 0 1px var(--glow-blue);
     }
 
     .account-card h2 {
@@ -275,12 +305,11 @@
         max-width: 600px;
         margin: 0 auto;
         padding: 0.7rem;
-        background: rgba(30, 60, 114, 0.3);
+        background: rgba(0, 54, 179, 0.2);
         backdrop-filter: blur(10px);
+        border: 1px solid var(--light-blue);
+        box-shadow: 0 8px 32px rgba(0, 54, 179, 0.3);
         border-radius: 20px;
-        box-shadow: 
-            0 4px 24px rgba(0, 0, 0, 0.2),
-            inset 0 0 0 1px rgba(228, 63, 90, 0.2);
     }
 
     .footer-icons a {
@@ -295,14 +324,39 @@
         border-radius: 12px;
         background: rgba(255, 255, 255, 0.05);
         overflow: hidden;
+        animation: footerIconPulse 3s ease-in-out infinite;
+        animation-play-state: paused;
+        will-change: transform;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+
+    .footer-icons a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(147, 197, 253, 0.2),
+            transparent
+        );
+        transition: 0.5s;
+    }
+
+    .footer-icons a:hover::before {
+        left: 100%;
     }
 
     .footer-icons a:hover {
-        transform: translateY(-2px);
-        background: rgba(228, 63, 90, 0.15);
+        border-color: var(--glow-blue);
         box-shadow: 
-            0 8px 20px rgba(0, 0, 0, 0.15),
-            inset 0 0 0 1px rgba(228, 63, 90, 0.3);
+            0 0 20px var(--glow-blue),
+            0 0 40px rgba(0, 195, 255, 0.2);
+        transform: translateY(-5px);
     }
 
     .footer-btn {
@@ -350,6 +404,139 @@
             height: 45px;
         }
     }
+
+    @keyframes titleGlow {
+        0% { text-shadow: 0 0 20px rgba(37, 99, 235, 0.5), 0 0 40px rgba(37, 99, 235, 0.3); }
+        100% { text-shadow: 0 0 30px rgba(37, 99, 235, 0.7), 0 0 60px rgba(37, 99, 235, 0.5); }
+    }
+
+    @keyframes titleBlur {
+        0% { filter: blur(8px); opacity: 0.7; }
+        100% { filter: blur(12px); opacity: 0.5; }
+    }
+
+    @keyframes titlePulse {
+        0%, 100% {
+            text-shadow: 
+                0 0 20px var(--glow-blue),
+                0 0 40px var(--glow-blue),
+                0 0 60px var(--primary-blue);
+        }
+        50% {
+            text-shadow: 
+                0 0 30px var(--glow-blue),
+                0 0 60px var(--glow-blue),
+                0 0 80px var(--primary-blue);
+        }
+    }
+
+    /* Animação de onda para os cards */
+    @keyframes cardWave {
+        0% {
+            transform: translateY(0);
+            box-shadow: 0 8px 32px rgba(0, 195, 255, 0.1);
+        }
+        50% {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 40px rgba(0, 195, 255, 0.3);
+        }
+        100% {
+            transform: translateY(0);
+            box-shadow: 0 8px 32px rgba(0, 195, 255, 0.1);
+        }
+    }
+
+    /* Animação do brilho */
+    @keyframes cardGlow {
+        0% {
+            border-color: var(--light-blue);
+            box-shadow: 0 8px 32px rgba(0, 54, 179, 0.3);
+        }
+        50% {
+            border-color: var(--glow-blue);
+            box-shadow: 
+                0 8px 32px rgba(0, 195, 255, 0.3),
+                0 0 20px var(--glow-blue);
+        }
+        100% {
+            border-color: var(--light-blue);
+            box-shadow: 0 8px 32px rgba(0, 54, 179, 0.3);
+        }
+    }
+
+    /* Animação do ripple effect */
+    @keyframes ripple {
+        0% {
+            transform: scale(1);
+            opacity: 0.8;
+        }
+        100% {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+
+    /* Aplicando delay diferente para cada card criar efeito de onda */
+    .account-grid .account-card:nth-child(1) {
+        animation-delay: 0s;
+    }
+    .account-grid .account-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    .account-grid .account-card:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+    .account-grid .account-card:nth-child(4) {
+        animation-delay: 0.6s;
+    }
+
+    /* Efeito de ripple */
+    .account-card::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle, var(--glow-blue) 0%, transparent 70%);
+        border-radius: inherit;
+        opacity: 0;
+        pointer-events: none;
+        animation: ripple 2s ease-out infinite;
+        animation-play-state: paused;
+    }
+
+    /* Classe para ativar animações quando visível */
+    .animate-visible {
+        animation-play-state: running !important;
+    }
+    .animate-visible::after {
+        animation-play-state: running !important;
+    }
+
+    /* Adicione também animação automática para os botões do footer */
+    @keyframes footerIconPulse {
+        0% {
+            transform: translateY(0);
+            filter: brightness(1);
+        }
+        50% {
+            transform: translateY(-5px);
+            filter: brightness(1.2);
+        }
+        100% {
+            transform: translateY(0);
+            filter: brightness(1);
+        }
+    }
+
+    /* Delay para os ícones do footer */
+    .footer-icons a:nth-child(1) { animation-delay: 0s; }
+    .footer-icons a:nth-child(2) { animation-delay: 0.2s; }
+    .footer-icons a:nth-child(3) { animation-delay: 0.4s; }
+    .footer-icons a:nth-child(4) { animation-delay: 0.6s; }
+    .footer-icons a:nth-child(5) { animation-delay: 0.8s; }
 </style>
 <body>
     <div class="hero">
@@ -400,6 +587,39 @@
             </div>
         </div>
     </div>
+
+    <script>
+    // Função para verificar se elemento está visível na viewport
+    function isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
+    // Função para adicionar classe de animação quando elemento estiver visível
+    function handleVisibility() {
+        const cards = document.querySelectorAll('.account-card');
+        const footerIcons = document.querySelectorAll('.footer-icons a');
+        
+        [...cards, ...footerIcons].forEach(element => {
+            if (isElementInViewport(element)) {
+                element.classList.add('animate-visible');
+            }
+        });
+    }
+
+    // Adicionar listeners para verificar visibilidade
+    window.addEventListener('scroll', handleVisibility);
+    window.addEventListener('resize', handleVisibility);
+    window.addEventListener('load', handleVisibility);
+
+    // Iniciar primeira verificação
+    handleVisibility();
+    </script>
 </body>
 <footer>
     <div class="footer-icons">
